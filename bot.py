@@ -1,59 +1,182 @@
 import discord
-from discord import app_commands
+from discord.ext import commands, tasks
+import asyncio
 import os
+import logging
+from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-Discord_Token = os.getenv("DISCORDTOKEN")
 
-intents = discord.Intents.default()
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
+# ── Logging ────────────────────────────────────────────────────────────────────
 
-# --command ---------------------------------------------------------
-
-
-@tree.command(name="ping", description="Test if bot is alive")
-async def ping(interaction: discord.Interaction):
-    await interaction.response.send_message("Pong!", ephemeral=True)
-
-
-@tree.command(name="login", description="Link your Riot account")
-async def login(interaction: discord.Interaction, summoner_name: str, region: str):
-    await interaction.response.send_message(
-        f"Received: {summoner_name} on {region} — login logic coming soon!",
-        ephemeral=True,
-    )
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        logging.FileHandler("bot.log"),
+        logging.StreamHandler(),  # also print to console
+    ],
+)
+log = logging.getLogger("bot")
 
 
-@tree.command(name="recent", description="See your recent matches")
-async def recent(interaction: discord.Interaction):
-    await interaction.response.send_message(
-        "Fetching your recent matches — coming soon!", ephemeral=True
-    )
+# ── Bot setup ──────────────────────────────────────────────────────────────────
+
+EXTENSIONS = [
+    "commands.login",
+    "commands.profile",
+    "commands.recent",
+]
 
 
-# --StartUp -------------------------------------------------------
-@client.event
-async def on_ready():
-    server_id = os.getenv("SERVER_ID")
-    if server_id:
-        try:
-            guild = discord.Object(id=int(server_id))
-            tree.copy_global_to(guild=guild)
-            await tree.sync(guild=guild)
-            print(f"Logged in as {client.user} (Synced to Guild ID: {server_id})")
-        except ValueError:
-            print(f"Error: SERVER_ID '{server_id}' is not a valid integer. Syncing globally instead.")
-            await tree.sync()
-            print(f"Logged in as {client.user} (Global Sync)")
-    else:
-        await tree.sync()
-        print(f"Logged in as {client.user} (Global Sync)")
+class LoLBot(commands.Bot):
+    def __init__(self):
+        intents = discord.Intents.default()
+        intents.message_content = True
+
+        super().__init__(
+            command_prefix="!",
+            intents=intents,
+            help_command=None,  # disable default help
+        )
+
+    # ── Lifecycle ──────────────────────────────────────────────────────────────
+
+    async def setup_hook(self):
+        """Called once before the bot connects — load extensions here."""
+        for ext in EXTENSIONS:
+            try:
+                await self.load_extension(ext)
+                log.info(f"✅ Loaded extension: {ext}")
+            except Exception as e:
+                log.error(f"❌ Failed to load {ext}: {e}")
+
+        await self.tree.sync()
+        log.info("🔄 Slash commands synced")
+
+    async def on_ready(self):
+        log.info(f"✅ Logged in as {self.user} (ID: {self.user.id})")
+        log.info(f"   Guilds : {len(self.guilds)}")
+        log.info(f"   Ping   : {round(self.latency * 1000)}ms")
+
+        await self.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching, name="League of Legends 🎮"
+            )
+        )
+
+        self.status_task.start()
+
+    async def on_disconnect(self):
+        log.warning("⚠️  Bot disconnected from Discord")
+
+    async def on_resumed(self):
+        log.info("🔄 Bot reconnected")
+
+    # ── Error handling ─────────────────────────────────────────────────────────
+
+    async def on_command_error(self, ctx, error):
+        log.error(f"Command error in {ctx.command}: {error}")
+
+    async def on_application_command_error(
+        self, interaction: discord.Interaction, error
+    ):
+        log.error(f"Slash command error: {error}")
+        msg = "❌ Something went wrong. Please try again later."
+
+        if interaction.response.is_done():
+            await interaction.followup.send(msg, ephemeral=True)
+        else:
+            await interaction.response.send_message(msg, ephemeral=True)
+
+    async def on_guild_join(self, guild: discord.Guild):
+        log.info(f"➕ Joined guild: {guild.name} (ID: {guild.id})")
+
+    async def on_guild_remove(self, guild: discord.Guild):
+        log.info(f"➖ Left guild: {guild.name} (ID: {guild.id})")
+
+    # ── Background task ────────────────────────────────────────────────────────
+
+    @tasks.loop(minutes=30)
+    async def status_task(self):
+        """Rotate bot status every 30 minutes."""
+        statuses = [
+            discord.Activity(
+                type=discord.ActivityType.watching, name="League of Legends 🎮"
+            ),
+            discord.Activity(
+                type=discord.ActivityType.listening, name="/login | /profile | /recent"
+            ),
+            discord.Activity(
+                type=discord.ActivityType.watching, name=f"{len(self.guilds)} servers"
+            ),
+        ]
+        index = (self.status_task.current_loop) % len(statuses)
+        await self.change_presence(activity=statuses[index])
+
+    @status_task.before_loop
+    async def before_status_task(self):
+        await self.wait_until_ready()
 
 
-if Discord_Token:
-    client.run(Discord_Token)
-else:
-    print("Error: DISCORDTOKEN not found in .env file.")
+# ── Dev commands (owner only) ──────────────────────────────────────────────────
 
+bot = LoLBot()
+
+
+@bot.command(name="sync")
+@commands.is_owner()
+async def sync(ctx):
+    """Force re-sync slash commands (owner only)."""
+    await bot.tree.sync()
+    await ctx.send("✅ Slash commands synced.")
+    log.info("🔄 Manual sync triggered")
+
+
+@bot.command(name="reload")
+@commands.is_owner()
+async def reload(ctx, extension: str):
+    """Reload a specific extension (owner only). Usage: !reload commands.login"""
+    try:
+        await bot.reload_extension(extension)
+        await ctx.send(f"✅ Reloaded `{extension}`")
+        log.info(f"🔄 Reloaded extension: {extension}")
+    except Exception as e:
+        await ctx.send(f"❌ Failed: {e}")
+        log.error(f"Reload failed for {extension}: {e}")
+
+
+@bot.command(name="ping")
+async def ping(ctx):
+    """Check bot latency."""
+    await ctx.send(f"🏓 Pong! `{round(bot.latency * 1000)}ms`")
+
+
+@bot.command(name="status")
+@commands.is_owner()
+async def status(ctx):
+    """Show bot status info (owner only)."""
+    uptime = datetime.utcnow() - bot.start_time if hasattr(bot, "start_time") else "N/A"
+    embed = discord.Embed(title="🤖 Bot Status", color=0x1A78C2)
+    embed.add_field(name="📡 Ping", value=f"{round(bot.latency * 1000)}ms", inline=True)
+    embed.add_field(name="🏠 Guilds", value=str(len(bot.guilds)), inline=True)
+    embed.add_field(name="🔌 Shards", value=str(bot.shard_count or 1), inline=True)
+    await ctx.send(embed=embed)
+
+
+# ── Entry point ────────────────────────────────────────────────────────────────
+
+
+async def main():
+    token = os.getenv("DISCORDTOKEN")
+    if not token:
+        log.critical("❌ DISCORDTOKEN not found in .env — exiting")
+        return
+
+    async with bot:
+        bot.start_time = datetime.utcnow()
+        await bot.start(token)
+
+
+asyncio.run(main())
