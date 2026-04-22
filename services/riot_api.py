@@ -67,7 +67,7 @@ async def get_rank(summoner_id: str) -> dict | None:
     )
 
 
-async def get_match_ids(puuid: str, cont: int = 5) -> dict | None:
+async def get_match_ids(puuid: str, count: int = 5) -> dict | None:
     return await riot_get(
         f"https://{CLUSTER}.api.riotgames.com"
         f"/lol/match/v5/matches/by-puuid/{puuid}/ids?count={count}"

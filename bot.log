@@ -82,3 +82,71 @@ Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/aiohttp/connector.py", line 1327, in _wrap_create_connection
     raise ClientConnectorCertificateError(req.connection_key, exc) from exc
 aiohttp.client_exceptions.ClientConnectorCertificateError: Cannot connect to host discord.com:443 ssl:True [SSLCertVerificationError: (1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1018)')]
+2026-04-22 00:50:03,180 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-22 00:50:03,181 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-22 00:50:03,182 [INFO] discord.client: logging in using static token
+2026-04-22 00:50:03,704 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-22 00:50:03,708 [ERROR] bot: ❌ Failed to load commands.profile: Extension 'commands.profile' raised an error: NameError: name 'discord' is not defined
+2026-04-22 00:50:03,714 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-22 00:50:03,910 [INFO] bot: 🔄 Slash commands synced
+2026-04-22 00:50:04,352 [WARNING] bot: ⚠️  Bot disconnected from Discord
+2026-04-22 00:54:47,504 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-22 00:54:47,505 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-22 00:54:47,506 [INFO] discord.client: logging in using static token
+2026-04-22 00:54:47,891 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-22 00:54:47,899 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-22 00:54:47,900 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-22 00:54:48,183 [INFO] bot: 🔄 Slash commands synced
+2026-04-22 00:54:48,576 [WARNING] bot: ⚠️  Bot disconnected from Discord
+2026-04-22 01:02:58,262 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-22 01:02:58,263 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-22 01:02:58,264 [INFO] discord.client: logging in using static token
+2026-04-22 01:02:58,661 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-22 01:02:58,661 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-22 01:02:58,663 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-22 01:02:58,798 [INFO] bot: 🔄 Slash commands synced
+2026-04-22 01:03:01,276 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 8ffd3e5eaf4edabab0603b0294b5b94f).
+2026-04-22 01:03:03,284 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-22 01:03:03,284 [INFO] bot:    Guilds : 1
+2026-04-22 01:03:03,285 [INFO] bot:    Ping   : 42ms
+2026-04-22 01:03:32,882 [ERROR] discord.app_commands.tree: Ignoring exception in command tree
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/tree.py", line 1138, in wrapper
+    await self._call(interaction)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/tree.py", line 1270, in _call
+    command, options = self._get_app_command_options(data)
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/tree.py", line 1174, in _get_app_command_options
+    raise CommandNotFound(name, parents)
+discord.app_commands.errors.CommandNotFound: Application command 'ping' not found
+2026-04-22 01:03:53,411 [ERROR] discord.app_commands.tree: Ignoring exception in command 'login'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/tree.py", line 1302, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    transformed_values = await self._transform_arguments(interaction, namespace)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 847, in _transform_arguments
+    raise CommandSignatureMismatch(self) from None
+discord.app_commands.errors.CommandSignatureMismatch: The signature for command 'login' is different from the one provided by Discord. This can happen because either your code is out of date or you have not synced the commands with Discord, causing the mismatch in data. It is recommended to sync the command tree to fix this issue.
+2026-04-22 03:20:37,191 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-22 03:20:37,192 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-22 03:20:37,193 [INFO] discord.client: logging in using static token
+2026-04-22 03:20:37,715 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-22 03:20:37,726 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-22 03:20:37,731 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-22 03:20:37,899 [INFO] bot: 🔄 Slash commands synced
+2026-04-22 03:20:38,668 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: c6e5a2c0cdf32e5c69cdbabeed40a2d4).
+2026-04-22 03:20:40,672 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-22 03:20:40,674 [INFO] bot:    Guilds : 1
+2026-04-22 03:20:40,674 [INFO] bot:    Ping   : 45ms
+2026-04-22 03:21:03,101 [ERROR] discord.app_commands.tree: Ignoring exception in command 'login'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/tree.py", line 1302, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    transformed_values = await self._transform_arguments(interaction, namespace)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 847, in _transform_arguments
+    raise CommandSignatureMismatch(self) from None
+discord.app_commands.errors.CommandSignatureMismatch: The signature for command 'login' is different from the one provided by Discord. This can happen because either your code is out of date or you have not synced the commands with Discord, causing the mismatch in data. It is recommended to sync the command tree to fix this issue.

@@ -30,7 +30,7 @@ class RecentCog(commands.Cog):
         #check if user
         if not user:
             await interaction.followup.send(
-                "❌ You haven't linked your account yet. Use `/login` first."
+                "❌ You haven't linked your account yet. Use `/signin` first."
             )
             return
 

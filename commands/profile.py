@@ -1,3 +1,4 @@
+import discord
 from discord import app_commands
 from discord.ext import commands
 import aiohttp
@@ -23,7 +24,7 @@ class ProfileCog(commands.Cog):
         #check if user login
         if not user:
             await interaction.followup.send(
-                "❌ You haven't linked your Riot account yet. Use `/login` first."
+                "❌ You haven't linked your Riot account yet. Use `/signin` first."
             )
             return
 

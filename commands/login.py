@@ -11,9 +11,7 @@ class LoginCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.command(name="login", description="Link your Riot account")
-    @app_commands.describe(summoner="Your Riot ID (e.g. Name#TAG)")
-    async def login(self, interaction: discord.Interaction, summoner: str):
+    async def _handle_login(self, interaction: discord.Interaction, summoner: str):
         await interaction.response.defer(ephemeral=True)
         
         if "#" not in summoner:
@@ -52,6 +50,16 @@ class LoginCog(commands.Cog):
             f"✅ Linked **{game_name}#{tag_line}** to your Discord account!",
             ephemeral=True
         )
+
+    @app_commands.command(name="login", description="Link your Riot account")
+    @app_commands.describe(summoner="Your Riot ID (e.g. Name#TAG)")
+    async def login(self, interaction: discord.Interaction, summoner: str):
+        await self._handle_login(interaction, summoner)
+
+    @app_commands.command(name="signin", description="Link your Riot account")
+    @app_commands.describe(summoner="Your Riot ID (e.g. Name#TAG)")
+    async def signin(self, interaction: discord.Interaction, summoner: str):
+        await self._handle_login(interaction, summoner)
 
 
 async def setup(bot):

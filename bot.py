@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 import asyncio
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -52,8 +52,19 @@ class LoLBot(commands.Bot):
             except Exception as e:
                 log.error(f"❌ Failed to load {ext}: {e}")
 
+        # If SERVER_ID is provided, sync specifically to that guild for instant updates
+        guild_id = os.getenv("SERVER_ID")
+        if guild_id:
+            try:
+                guild = discord.Object(id=int(guild_id))
+                self.tree.copy_global_to(guild=guild)
+                await self.tree.sync(guild=guild)
+                log.info(f"🔄 Slash commands synced to guild {guild_id}")
+            except Exception as e:
+                log.error(f"❌ Failed to sync to guild {guild_id}: {e}")
+        
         await self.tree.sync()
-        log.info("🔄 Slash commands synced")
+        log.info("🔄 Global slash commands synced")
 
     async def on_ready(self):
         log.info(f"✅ Logged in as {self.user} (ID: {self.user.id})")
@@ -127,11 +138,17 @@ bot = LoLBot()
 
 @bot.command(name="sync")
 @commands.is_owner()
-async def sync(ctx):
-    """Force re-sync slash commands (owner only)."""
-    await bot.tree.sync()
-    await ctx.send("✅ Slash commands synced.")
-    log.info("🔄 Manual sync triggered")
+async def sync(ctx, guild: str = None):
+    """Force re-sync slash commands. Use 'guild' to sync to current guild."""
+    if guild == "guild":
+        bot.tree.copy_global_to(guild=ctx.guild)
+        await bot.tree.sync(guild=ctx.guild)
+        await ctx.send(f"✅ Slash commands synced to **{ctx.guild.name}**.")
+        log.info(f"🔄 Manual sync triggered for guild {ctx.guild.id}")
+    else:
+        await bot.tree.sync()
+        await ctx.send("✅ Global slash commands synced (may take an hour).")
+        log.info("🔄 Manual global sync triggered")
 
 
 @bot.command(name="reload")
@@ -147,17 +164,17 @@ async def reload(ctx, extension: str):
         log.error(f"Reload failed for {extension}: {e}")
 
 
-@bot.command(name="ping")
-async def ping(ctx):
+@bot.tree.command(name="ping", description="Check bot latency")
+async def ping(interaction: discord.Interaction):
     """Check bot latency."""
-    await ctx.send(f"🏓 Pong! `{round(bot.latency * 1000)}ms`")
+    await interaction.response.send_message(f"🏓 Pong! `{round(bot.latency * 1000)}ms`")
 
 
 @bot.command(name="status")
 @commands.is_owner()
 async def status(ctx):
     """Show bot status info (owner only)."""
-    uptime = datetime.utcnow() - bot.start_time if hasattr(bot, "start_time") else "N/A"
+    uptime = datetime.now(timezone.utc) - bot.start_time if hasattr(bot, "start_time") else "N/A"
     embed = discord.Embed(title="🤖 Bot Status", color=0x1A78C2)
     embed.add_field(name="📡 Ping", value=f"{round(bot.latency * 1000)}ms", inline=True)
     embed.add_field(name="🏠 Guilds", value=str(len(bot.guilds)), inline=True)
@@ -175,7 +192,7 @@ async def main():
         return
 
     async with bot:
-        bot.start_time = datetime.utcnow()
+        bot.start_time = datetime.now(timezone.utc)
         await bot.start(token)
 
 

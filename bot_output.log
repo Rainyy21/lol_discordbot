@@ -1,0 +1,30 @@
+2026-04-22 00:54:47,504 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-22 00:54:47,505 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+/Users/simonzheng/Documents/vscode/lolBot/bot.py:178: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  bot.start_time = datetime.utcnow()
+2026-04-22 00:54:47,506 [INFO] discord.client: logging in using static token
+2026-04-22 00:54:47,891 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-22 00:54:47,899 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-22 00:54:47,900 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-22 00:54:48,183 [INFO] bot: 🔄 Slash commands synced
+2026-04-22 00:54:48,576 [WARNING] bot: ⚠️  Bot disconnected from Discord
+Traceback (most recent call last):
+  File "/Users/simonzheng/Documents/vscode/lolBot/bot.py", line 182, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 720, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/simonzheng/Documents/vscode/lolBot/bot.py", line 179, in main
+    await bot.start(token)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/client.py", line 851, in start
+    await self.connect(reconnect=reconnect)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/client.py", line 775, in connect
+    raise PrivilegedIntentsRequired(exc.shard_id) from None
+discord.errors.PrivilegedIntentsRequired: Shard ID None is requesting privileged intents that have not been explicitly enabled in the developer portal. It is recommended to go to https://discord.com/developers/applications/ and explicitly enable the privileged intents within your application's page. If this is not possible, then consider disabling the privileged intents instead.
