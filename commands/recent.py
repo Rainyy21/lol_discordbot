@@ -1,27 +1,25 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-import aiohttp
-import os 
+import asyncio
 from database.db import get_user
+from services.riot_api import get_match_ids, get_match, get_latest_patch
 
-RIOT_API_KEY = os.getenv("LEAGUEAPI")
-REGION = "na1"
-CLUSTER = "americas" 
-
-CLUSTER_MAP = {
-    "na1": "americas", "br1": "americas", "la1": "americas", "la2": "americas",
-    "euw1": "europe",  "eun1": "europe",  "tr1": "europe",   "ru": "europe",
-    "kr": "asia",      "jp1": "asia",
-}
 class RecentCog(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
+        self.patch = "14.8.1"
+
+    async def _update_patch(self):
+        new_patch = await get_latest_patch()
+        if new_patch:
+            self.patch = new_patch
 
     @app_commands.command(name = "recent", description="Show your last N matches")
     @app_commands.describe(count="Number of matches to show (1–10, default 5)")
     async def recent(self , interaction: discord.Interaction, count: int = 5):
         await interaction.response.defer(ephemeral=False)
+        await self._update_patch()
 
         count = max(1, min(count, 10))  # clamp between 1 and 10
         discord_id = str(interaction.user.id)
@@ -36,32 +34,28 @@ class RecentCog(commands.Cog):
 
         #get user
         _, puuid, game_name, tag_line = user
-        cluster = CLUSTER_MAP.get(REGION, "americas")
-        headers = {"X-Riot-Token": RIOT_API_KEY}
         
-        #get user data
-        async with aiohttp.ClientSession() as session:
-            # 1. Fetch match ID list
-            match_ids = await fetch(
-                session,
-                f"https://{cluster}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?count={count}",
-                headers
-            )
-            if not match_ids:
-                await interaction.followup.send("❌ Could not fetch match history.")
-                return
+        # 1. Fetch match ID list
+        match_ids = await get_match_ids(puuid, count=count)
+        
+        if match_ids is None:
+            await interaction.followup.send("❌ Could not fetch match history.")
+            return
 
-            # 2. Fetch each match in parallel
-            match_data = await fetch_all(session, [
-                f"https://{cluster}.api.riotgames.com/lol/match/v5/matches/{mid}"
-                for mid in match_ids
-            ], headers)
+        if isinstance(match_ids, dict) and "error" in match_ids:
+             await interaction.followup.send(f"❌ Riot API error ({match_ids['error']}).")
+             return
+
+        # 2. Fetch each match in parallel (get_match handles caching internally)
+        match_data = await asyncio.gather(*[get_match(mid) for mid in match_ids])
+        
         embeds = []
         for match in match_data:
-            if match:
-                embed = build_match_embed(match , puuid, game_name,tag_line)
+            if match and isinstance(match, dict) and "error" not in match:
+                embed = build_match_embed(match , puuid, game_name, tag_line, self.patch)
                 if embed:
                     embeds.append(embed)
+                    
         if not embeds:
             await interaction.followup.send("❌ No recent matches found.")
             return
@@ -77,19 +71,6 @@ class RecentCog(commands.Cog):
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
-
-async def fetch(session: aiohttp.ClientSession, url: str, headers: dict):
-    async with session.get(url, headers=headers) as resp:
-        if resp.status != 200:
-            return None
-        return await resp.json()
-
-
-async def fetch_all(session: aiohttp.ClientSession, urls: list, headers: dict):
-    """Fetch multiple URLs concurrently."""
-    import asyncio
-    return await asyncio.gather(*[fetch(session, url, headers) for url in urls])
-
 
 def get_player(match: dict, puuid: str) -> dict:
     """Find this player's participant data within the match."""
@@ -118,7 +99,7 @@ def queue_name(queue_id: int) -> str:
     return queues.get(queue_id, "Other")
 
 
-def build_match_embed(match: dict, puuid: str, game_name: str, tag_line: str):
+def build_match_embed(match: dict, puuid: str, game_name: str, tag_line: str, patch: str):
     player = get_player(match, puuid)
     if not player:
         return None
@@ -145,7 +126,7 @@ def build_match_embed(match: dict, puuid: str, game_name: str, tag_line: str):
     embed.add_field(name="🌾 CS",     value=f"{cs} ({cs_per_min}/min)",          inline=True)
     embed.add_field(name="👤 Player", value=f"{game_name}#{tag_line}",           inline=True)
     embed.set_thumbnail(
-        url=f"https://ddragon.leagueoflegends.com/cdn/14.8.1/img/champion/{champion}.png"
+        url=f"https://ddragon.leagueoflegends.com/cdn/{patch}/img/champion/{champion}.png"
     )
 
     return embed

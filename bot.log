@@ -150,3 +150,117 @@ Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 847, in _transform_arguments
     raise CommandSignatureMismatch(self) from None
 discord.app_commands.errors.CommandSignatureMismatch: The signature for command 'login' is different from the one provided by Discord. This can happen because either your code is out of date or you have not synced the commands with Discord, causing the mismatch in data. It is recommended to sync the command tree to fix this issue.
+2026-04-22 03:44:35,358 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-22 03:44:35,358 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-22 03:44:35,359 [INFO] discord.client: logging in using static token
+2026-04-22 03:44:35,751 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-22 03:44:35,751 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-22 03:44:35,752 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-22 03:44:35,884 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-22 03:44:36,069 [INFO] bot: 🔄 Global slash commands synced
+2026-04-22 03:44:36,466 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: b5af520b7608ba76313f4e32f6045ed4).
+2026-04-22 03:44:38,469 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-22 03:44:38,470 [INFO] bot:    Guilds : 1
+2026-04-22 03:44:38,470 [INFO] bot:    Ping   : 47ms
+2026-04-23 00:15:51,686 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:15:51,688 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:15:51,690 [INFO] discord.client: logging in using static token
+2026-04-23 00:15:52,218 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:15:52,220 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:15:52,223 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:15:52,333 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:15:52,674 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:15:53,798 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: c95d0a5504b0553dfd47d07f17ad9d72).
+2026-04-23 00:15:55,804 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:15:55,807 [INFO] bot:    Guilds : 1
+2026-04-23 00:15:55,807 [INFO] bot:    Ping   : 39ms
+2026-04-23 00:23:23,262 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:23:23,263 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:23:23,264 [INFO] discord.client: logging in using static token
+2026-04-23 00:23:23,782 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:23:23,784 [ERROR] bot: ❌ Failed to load commands.profile: Extension 'commands.profile' raised an error: NameError: name 'aiohttp' is not defined
+2026-04-23 00:23:23,788 [ERROR] bot: ❌ Failed to load commands.recent: Extension 'commands.recent' raised an error: NameError: name 'aiohttp' is not defined
+2026-04-23 00:23:23,926 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:23:24,080 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:23:24,693 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 1fe2f819a2266ec9c68c874572e3ca7c).
+2026-04-23 00:23:26,699 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:23:26,699 [INFO] bot:    Guilds : 1
+2026-04-23 00:23:26,700 [INFO] bot:    Ping   : 42ms
+2026-04-23 00:25:58,295 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:25:58,295 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:25:58,296 [INFO] discord.client: logging in using static token
+2026-04-23 00:25:58,617 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:25:58,619 [ERROR] bot: ❌ Failed to load commands.profile: Extension 'commands.profile' raised an error: NameError: name 'aiohttp' is not defined
+2026-04-23 00:25:58,622 [ERROR] bot: ❌ Failed to load commands.recent: Extension 'commands.recent' raised an error: NameError: name 'aiohttp' is not defined
+2026-04-23 00:25:58,729 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:25:58,910 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:25:59,706 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 6be4de7a798203f744639beaeeb3bc77).
+2026-04-23 00:26:01,749 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:26:01,760 [INFO] bot:    Guilds : 1
+2026-04-23 00:26:01,761 [INFO] bot:    Ping   : 42ms
+2026-04-23 00:29:04,989 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:29:04,989 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:29:04,990 [INFO] discord.client: logging in using static token
+2026-04-23 00:29:05,366 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:29:05,370 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:29:05,373 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:29:05,663 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:29:05,860 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:29:06,727 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 1caf69eb498bb76c6a22762831c789e3).
+2026-04-23 00:29:08,757 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:29:08,761 [INFO] bot:    Guilds : 1
+2026-04-23 00:29:08,762 [INFO] bot:    Ping   : 43ms
+2026-04-23 00:29:22,375 [ERROR] discord.app_commands.tree: Ignoring exception in command 'profile'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/simonzheng/Documents/vscode/lolBot/commands/profile.py", line 41, in profile
+    summoner_id = summoner["id"]
+                  ~~~~~~~~^^^^^^
+KeyError: 'id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/tree.py", line 1302, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exception: KeyError: 'id'
+2026-04-23 00:30:43,277 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:30:43,278 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:30:43,279 [INFO] discord.client: logging in using static token
+2026-04-23 00:30:44,221 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:30:44,227 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:30:44,231 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:30:44,745 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:30:44,922 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:30:45,429 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 07f28f18598c25062c3300ff0d0bf20f).
+2026-04-23 00:30:47,479 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:30:47,481 [INFO] bot:    Guilds : 1
+2026-04-23 00:30:47,481 [INFO] bot:    Ping   : 50ms
+2026-04-23 00:31:43,436 [ERROR] discord.app_commands.tree: Ignoring exception in command 'profile'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/simonzheng/Documents/vscode/lolBot/commands/profile.py", line 41, in profile
+    summoner_id = summoner["id"]
+                  ~~~~~~~~^^^^^^
+KeyError: 'id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/tree.py", line 1302, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exception: KeyError: 'id'

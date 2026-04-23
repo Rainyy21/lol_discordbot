@@ -1,13 +1,10 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-import aiohttp
 import os
 
 from database.db import get_user
-
-RIOT_API_KEY = os.getenv("LEAGUEAPI")
-REGION = "na1"
+from services.riot_api import get_summoner, get_rank
 
 class ProfileCog(commands.Cog):
     def __init__(self, bot):
@@ -29,28 +26,38 @@ class ProfileCog(commands.Cog):
             return
 
         _, puuid, game_name, tag_line = user
-        headers = {"X-Riot-Token": RIOT_API_KEY}
         
-        async with aiohttp.ClientSession() as session:
-            # 1. Get summoner data (level) via PUUID
-            summoner = await fetch(
-                session,
-                f"https://{REGION}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}",
-                headers
-            )
-            if not summoner:
-                await interaction.followup.send("❌ Could not fetch summoner data.")
-                return
+        # 1. Get summoner data (level) via PUUID
+        summoner = await get_summoner(puuid)
+        
+        if not summoner:
+            await interaction.followup.send("❌ Could not fetch summoner data (Summoner not found).")
+            return
+        
+        if isinstance(summoner, dict) and "error" in summoner:
+            if summoner["error"] == 401:
+                await interaction.followup.send("❌ Riot API error (401): Unauthorized. API Key might be expired.")
+            else:
+                await interaction.followup.send(f"❌ Riot API error ({summoner['error']}).")
+            return
 
-            summoner_id = summoner["id"]
-            level = summoner["summonerLevel"]
+        # Ensure 'id' exists before accessing it
+        if "id" not in summoner:
+             await interaction.followup.send("❌ Unexpected data format from Riot API.")
+             return
 
-            # 2. Get rank & LP (League-v4)
-            leagues = await fetch(
-                session,
-                f"https://{REGION}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}",
-                headers
-            )
+        summoner_id = summoner["id"]
+        level = summoner.get("summonerLevel", "N/A")
+
+        # 2. Get rank & LP (League-v4)
+        leagues = await get_rank(summoner_id)
+        
+        if leagues is None:
+            leagues = []
+        elif isinstance(leagues, dict) and "error" in leagues:
+            await interaction.followup.send(f"❌ Riot API error ({leagues['error']}).")
+            return
+
         # Parse ranked solo queue data
         rank_info = get_solo_rank(leagues)
 
@@ -81,16 +88,9 @@ class ProfileCog(commands.Cog):
 
         await interaction.followup.send(embed=embed)
 # ── Helpers ────────────────────────────────────────────────────────────────────
-#try to get the information
-async def fetch(session:aiohttp.ClientSession, url: str, headers: dict):
-    async with session.get(url, headers=headers) as resp:
-        if resp.status != 200:
-            return None
-        return await resp.json()
-
-def get_solo_rank(leagues: list) -> dict:
+def get_solo_rank(leagues) -> dict:
     """Extract solo queue entry from league data."""
-    if not leagues:
+    if not isinstance(leagues, list) or not leagues:
         return {}
     for entry in leagues:
         if entry.get("queueType") == "RANKED_SOLO_5x5":

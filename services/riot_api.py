@@ -3,7 +3,9 @@ import asyncio
 import os
 import json
 from dotenv import load_dotenv
-from db import save_match, get_match as get_cached_match
+from database.db import save_match, get_match as get_cached_match
+
+load_dotenv()
 
 RIOT_API_KEY = os.getenv("LEAGUEAPI")
 REGION = os.getenv("REGION", "na1")
@@ -24,21 +26,29 @@ CLUSTER = CLUSTER_MAP.get(REGION, "americas")
 
 
 async def riot_get(url: str, retries: int = 3) -> dict | list | None:
+    if not RIOT_API_KEY:
+        print("❌ RIOT_API_KEY not found in environment")
+        return {"error": 401, "message": "API Key missing"}
+
     headers = {"X-Riot-Token": RIOT_API_KEY}
     async with aiohttp.ClientSession() as session:
         for attempt in range(retries):
             async with session.get(url, headers=headers) as resp:
                 if resp.status == 200:
                     return await resp.json()
-                elif resp.status == 492:
+                elif resp.status == 429:
                     wait = int(resp.headers.get("Retry-After", 5))
                     print(f"⚠️  Rate limited. Retrying in {wait}s...")
                     await asyncio.sleep(wait)
+                elif resp.status == 401:
+                    print(f"❌ 401 Unauthorized: RIOT_API_KEY is invalid or expired.")
+                    return {"error": 401, "message": "Unauthorized (Key expired/invalid)"}
                 elif resp.status == 404:
                     return None
                 else:
                     print(f"❌ Error {resp.status} (attempt {attempt + 1}): {url}")
-                    await asyncio.sleep(1)
+                    if attempt < retries - 1:
+                        await asyncio.sleep(1)
 
     return None
 
@@ -80,9 +90,9 @@ async def get_match(match_id: str) -> dict | None:
     if cached:
         return json.loads(cached)
     data = await riot_get(
-        f"https://{CLUSTER}.api.riotgames.com" f"/lol/match/v5/matches/{match_id}"
+        f"https://{CLUSTER}.api.riotgames.com/lol/match/v5/matches/{match_id}"
     )
-    if data:
+    if data and isinstance(data, dict) and "error" not in data:
         save_match(match_id, json.dumps(data))
     return data
 

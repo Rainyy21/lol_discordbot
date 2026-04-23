@@ -11,6 +11,14 @@ cursor.execute("""
         tag_line TEXT
     )
 """)
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS matches(
+        match_id TEXT PRIMARY KEY,
+        data TEXT NOT NULL,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+""")
 conn.commit()
 
 
@@ -32,3 +40,17 @@ def save_user(discord_id: str, puuid: str, game_name: str, tag_line: str):
 def get_user(discord_id: str):
     cursor.execute("SELECT * FROM users WHERE discord_id = ?", (discord_id,))
     return cursor.fetchone()
+
+
+def save_match(match_id: str, data: str):
+    cursor.execute(
+        "INSERT OR REPLACE INTO matches(match_id, data) VALUES (?, ?)",
+        (match_id, data),
+    )
+    conn.commit()
+
+
+def get_match(match_id: str):
+    cursor.execute("SELECT data FROM matches WHERE match_id = ?", (match_id,))
+    row = cursor.fetchone()
+    return row[0] if row else None
