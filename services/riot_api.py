@@ -43,6 +43,9 @@ async def riot_get(url: str, retries: int = 3) -> dict | list | None:
                 elif resp.status == 401:
                     print(f"❌ 401 Unauthorized: RIOT_API_KEY is invalid or expired.")
                     return {"error": 401, "message": "Unauthorized (Key expired/invalid)"}
+                elif resp.status == 403:
+                    print(f"❌ 403 Forbidden: API Key is valid but does not have permission for this request (or has expired).")
+                    return {"error": 403, "message": "Forbidden (Check if key needs regeneration)"}
                 elif resp.status == 404:
                     return None
                 else:

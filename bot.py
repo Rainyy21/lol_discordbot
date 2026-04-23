@@ -45,6 +45,7 @@ class LoLBot(commands.Bot):
 
     async def setup_hook(self):
         """Called once before the bot connects — load extensions here."""
+        print("🚀 BOT IS STARTING WITH LATEST CHANGES - DIAGNOSTIC CHECK")
         for ext in EXTENSIONS:
             try:
                 await self.load_extension(ext)

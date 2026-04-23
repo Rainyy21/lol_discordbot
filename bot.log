@@ -264,3 +264,75 @@ Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/discord/app_commands/commands.py", line 877, in _do_call
     raise CommandInvokeError(self, e) from e
 discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exception: KeyError: 'id'
+2026-04-23 00:36:40,712 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:36:40,713 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:36:40,714 [INFO] discord.client: logging in using static token
+2026-04-23 00:36:41,065 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:36:41,067 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:36:41,068 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:36:41,192 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:36:41,414 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:36:41,953 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 62587d73144060202d8ee36fa208694d).
+2026-04-23 00:36:43,958 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:36:43,959 [INFO] bot:    Guilds : 1
+2026-04-23 00:36:43,960 [INFO] bot:    Ping   : 47ms
+2026-04-23 00:40:48,940 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:40:48,943 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:40:48,945 [INFO] discord.client: logging in using static token
+2026-04-23 00:40:49,447 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:40:49,456 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:40:49,458 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:40:49,579 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:40:49,733 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:40:50,319 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 53b1c73947b47d5f8b6a157b9847a2f8).
+2026-04-23 00:40:52,338 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:40:52,339 [INFO] bot:    Guilds : 1
+2026-04-23 00:40:52,340 [INFO] bot:    Ping   : 40ms
+2026-04-23 00:43:17,853 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:43:17,853 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:43:17,854 [INFO] discord.client: logging in using static token
+2026-04-23 00:43:18,577 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:43:18,580 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:43:18,581 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:43:18,722 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:43:19,072 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:43:19,505 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: d28ad3a17a3b91bab8f307c955201333).
+2026-04-23 00:43:21,509 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:43:21,509 [INFO] bot:    Guilds : 1
+2026-04-23 00:43:21,509 [INFO] bot:    Ping   : 47ms
+2026-04-23 00:45:55,920 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:45:55,922 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:45:55,922 [INFO] discord.client: logging in using static token
+2026-04-23 00:45:56,378 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:45:56,383 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:45:56,385 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:45:56,635 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:45:56,802 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:45:57,609 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: dcd3bf39a3dfe24278f26e19cf20d1e3).
+2026-04-23 00:45:59,626 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:45:59,628 [INFO] bot:    Guilds : 1
+2026-04-23 00:45:59,628 [INFO] bot:    Ping   : 52ms
+2026-04-23 00:47:09,746 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:47:09,748 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:47:09,749 [INFO] discord.client: logging in using static token
+2026-04-23 00:47:10,083 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:47:10,087 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:47:10,088 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:47:10,179 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:47:10,497 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:47:10,852 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: 12e6b98ef80fe2d3b65484b645b1ca5e).
+2026-04-23 00:47:12,883 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:47:12,888 [INFO] bot:    Guilds : 1
+2026-04-23 00:47:12,888 [INFO] bot:    Ping   : 42ms
+2026-04-23 00:48:05,919 [WARNING] discord.client: PyNaCl is not installed, voice will NOT be supported
+2026-04-23 00:48:05,921 [WARNING] discord.client: davey is not installed, voice will NOT be supported
+2026-04-23 00:48:05,921 [INFO] discord.client: logging in using static token
+2026-04-23 00:48:06,277 [INFO] bot: ✅ Loaded extension: commands.login
+2026-04-23 00:48:06,278 [INFO] bot: ✅ Loaded extension: commands.profile
+2026-04-23 00:48:06,280 [INFO] bot: ✅ Loaded extension: commands.recent
+2026-04-23 00:48:06,404 [INFO] bot: 🔄 Slash commands synced to guild 1055571472611033160
+2026-04-23 00:48:06,633 [INFO] bot: 🔄 Global slash commands synced
+2026-04-23 00:48:07,200 [INFO] discord.gateway: Shard ID None has connected to Gateway (Session ID: cc0663ddbaf35678192c78e9b2f0bb36).
+2026-04-23 00:48:09,214 [INFO] bot: ✅ Logged in as league of legend bot#3877 (ID: 1494467149186465862)
+2026-04-23 00:48:09,215 [INFO] bot:    Guilds : 1
+2026-04-23 00:48:09,216 [INFO] bot:    Ping   : 47ms

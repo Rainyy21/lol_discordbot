@@ -29,6 +29,7 @@ class ProfileCog(commands.Cog):
         
         # 1. Get summoner data (level) via PUUID
         summoner = await get_summoner(puuid)
+        print(f"DEBUG: summoner response for {puuid}: {summoner}")
         
         if not summoner:
             await interaction.followup.send("❌ Could not fetch summoner data (Summoner not found).")
@@ -37,16 +38,20 @@ class ProfileCog(commands.Cog):
         if isinstance(summoner, dict) and "error" in summoner:
             if summoner["error"] == 401:
                 await interaction.followup.send("❌ Riot API error (401): Unauthorized. API Key might be expired.")
+            elif summoner["error"] == 403:
+                await interaction.followup.send("❌ Riot API error (403): Forbidden. Your API Key is likely EXPIRED. Please regenerate it at developer.riotgames.com.")
             else:
                 await interaction.followup.send(f"❌ Riot API error ({summoner['error']}).")
             return
 
         # Ensure 'id' exists before accessing it
-        if "id" not in summoner:
-             await interaction.followup.send("❌ Unexpected data format from Riot API.")
+        # Fallback to puuid if 'id' is missing (some newer API behavior)
+        summoner_id = summoner.get("id") or summoner.get("puuid")
+        
+        if not summoner_id:
+             await interaction.followup.send(f"❌ Could not find a valid ID in Riot API response. Keys: {list(summoner.keys())}")
              return
 
-        summoner_id = summoner["id"]
         level = summoner.get("summonerLevel", "N/A")
 
         # 2. Get rank & LP (League-v4)
